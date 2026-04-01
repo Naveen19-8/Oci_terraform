@@ -16,3 +16,7 @@ variable "existing_instance_ips" { type = string }
 variable "create_lb" { type = bool }
 variable "lb_name" { type = string }
 variable "lb_shape" { type = string }
+variable "is_private_lb" {
+  type    = bool
+  default = false
+}
