@@ -1,87 +1,18 @@
-#############################################
-# BASIC CONFIGURATION
-#############################################
+variable "create_compartment" { type = bool }
+variable "compartment_name" { type = string }
+variable "compartment_id" { type = string }
 
-variable "create_lb" {
-  description = "Create new Load Balancer"
-  type        = bool
-  default     = true
-}
+variable "create_network" { type = bool }
+variable "vcn_cidr" { type = string }
+variable "subnet_cidr" { type = string }
+variable "vcn_id" { type = string }
+variable "subnet_id" { type = string }
 
-variable "lb_name" {
-  description = "Load Balancer Name"
-  type        = string
-}
+variable "create_instance" { type = bool }
+variable "instance_name" { type = string }
+variable "instance_count" { type = number }
+variable "existing_instance_ips" { type = string }
 
-variable "lb_shape" {
-  description = "Load Balancer Shape"
-  type        = string
-  default     = "flexible"
-}
-
-#############################################
-# NETWORK CONFIGURATION
-#############################################
-
-variable "compartment_id" {
-  description = "Compartment OCID"
-  type        = string
-}
-
-variable "subnet_id" {
-  description = "Subnet OCID"
-  type        = string
-}
-
-#############################################
-# BACKEND CONFIGURATION (DROPDOWN SINGLE)
-#############################################
-
-variable "backend_ips" {
-  description = "Backend IP (selected from dropdown)"
-  type        = string
-}
-
-#############################################
-# EXISTING LOAD BALANCER (OPTIONAL)
-#############################################
-
-variable "existing_lb_id" {
-  description = "Existing Load Balancer OCID"
-  type        = string
-  default     = ""
-}
-
-#############################################
-# OPTIONAL PROVIDER SETTINGS
-#############################################
-
-variable "region" {
-  description = "OCI Region"
-  type        = string
-  default     = "ap-mumbai-1"
-}
-
-variable "compartment_name" {
-  description = "New Compartment Name"
-  type        = string
-}
-
-variable "tenancy_ocid" {
-  description = "Tenancy OCID"
-  type        = string
-}
-variable "tenancy_ocid" {
-  description = "Tenancy OCID"
-  type        = string
-  default     = ""
-}
-
-variable "create_compartment" {
-  type    = bool
-  default = false
-}
-
-variable "compartment_name" {
-  type = string
-}
+variable "create_lb" { type = bool }
+variable "lb_name" { type = string }
+variable "lb_shape" { type = string }
