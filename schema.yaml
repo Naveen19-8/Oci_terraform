@@ -1,4 +1,4 @@
-title: "🚀 OCI Full Deployment"
+title: "🚀 OCI Full Automation"
 
 variableGroups:
   - title: "Compartment"
@@ -15,7 +15,7 @@ variableGroups:
       - vcn_id
       - subnet_id
 
-  - title: "Compute"
+  - title: "Instance"
     variables:
       - create_instance
       - instance_name
@@ -27,6 +27,7 @@ variableGroups:
       - create_lb
       - lb_name
       - lb_shape
+      - is_private_lb
 
 variables:
 
@@ -107,3 +108,6 @@ variables:
       - flexible
       - 100Mbps
       - 400Mbps
+
+  is_private_lb:
+    type: boolean
