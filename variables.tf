@@ -26,9 +26,7 @@ variable "subnet_id" {
 }
 
 variable "backend_ips" {
-  description = "Backend IP addresses"
-  type        = list(string)
-  default     = []
+  type = string
 }
 
 variable "existing_lb_id" {
