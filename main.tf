@@ -72,3 +72,9 @@ resource "oci_load_balancer_listener" "listener" {
   port                     = 80
   protocol                 = "HTTP"
 }
+
+resource "oci_identity_compartment" "compartment" {
+  name          = var.compartment_name
+  description   = "Created via Terraform"
+  compartment_id = var.tenancy_ocid
+}
