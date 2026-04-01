@@ -1,5 +1,3 @@
-title: "🚀 OCI Load Balancer Deployment"
-
 variableGroups:
   - title: "Compartment Configuration"
     variables:
