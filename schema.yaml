@@ -1,30 +1,69 @@
 schemaVersion: 1.1
-version: "20190404"
+version: "20220101"
 locale: "en"
-
-title: "🚀 WAF Deployment"
-
+ 
+title: "🚀 WAF + LB + Compute Accelerator"
+ 
+# -------------------------------
+# VARIABLE GROUPS (UI SECTIONS)
+# -------------------------------
 variableGroups:
-  - title: "Compartment"
+ 
+  - title: "📦 Compartment Configuration"
     variables:
       - create_compartment
       - compartment_name
       - compartment_id
-
+ 
+  - title: "🌐 Network Configuration"
+    variables:
+      - create_network
+      - vcn_name
+      - subnet_type
+      - existing_vcn_id
+      - existing_subnet_id
+ 
+  - title: "💻 Compute Instance Configuration"
+    variables:
+      - create_instance
+      - instance_name
+      - instance_shape
+      - instance_private_ip
+      - existing_instance_id
+ 
+  - title: "⚖️ Load Balancer Configuration"
+    variables:
+      - create_lb
+      - lb_name
+      - lb_shape
+      - lb_subnet_id
+ 
+  - title: "🛡️ WAF Configuration"
+    variables:
+      - create_waf
+      - waf_name
+      - waf_policy
+ 
+# -------------------------------
+# VARIABLES
+# -------------------------------
 variables:
-
+ 
+  # ============================
+  # COMPARTMENT
+  # ============================
   create_compartment:
     type: boolean
     title: "Create New Compartment?"
     default: false
-
+ 
   compartment_name:
     type: string
     title: "New Compartment Name"
     visible:
       eq:
         create_compartment: true
-
+ 
   compartment_id:
     type: enum
     title: "Select Existing Compartment"
@@ -34,3 +73,138 @@ variables:
     visible:
       eq:
         create_compartment: false
+ 
+  # ============================
+  # NETWORK
+  # ============================
+  create_network:
+    type: boolean
+    title: "Create New Network (VCN)?"
+    default: true
+ 
+  vcn_name:
+    type: string
+    title: "VCN Name"
+    visible:
+      eq:
+        create_network: true
+ 
+  subnet_type:
+    type: enum
+    title: "Subnet Type"
+    enum:
+      - "public"
+      - "private"
+    visible:
+      eq:
+        create_network: true
+ 
+  existing_vcn_id:
+    type: string
+    title: "Existing VCN OCID"
+    visible:
+      eq:
+        create_network: false
+ 
+  existing_subnet_id:
+    type: string
+    title: "Existing Subnet OCID"
+    visible:
+      eq:
+        create_network: false
+ 
+  # ============================
+  # INSTANCE
+  # ============================
+  create_instance:
+    type: boolean
+    title: "Create New Compute Instance?"
+    default: true
+ 
+  instance_name:
+    type: string
+    title: "Instance Name"
+    visible:
+      eq:
+        create_instance: true
+ 
+  instance_shape:
+    type: enum
+    title: "Instance Shape"
+    enum:
+      - "VM.Standard.E4.Flex"
+      - "VM.Standard.E3.Flex"
+    visible:
+      eq:
+        create_instance: true
+ 
+  instance_private_ip:
+    type: string
+    title: "Private IP (Optional)"
+    visible:
+      eq:
+        create_instance: true
+ 
+  existing_instance_id:
+    type: string
+    title: "Existing Instance OCID"
+    visible:
+      eq:
+        create_instance: false
+ 
+  # ============================
+  # LOAD BALANCER
+  # ============================
+  create_lb:
+    type: boolean
+    title: "Create Load Balancer?"
+    default: true
+ 
+  lb_name:
+    type: string
+    title: "Load Balancer Name"
+    visible:
+      eq:
+        create_lb: true
+ 
+  lb_shape:
+    type: enum
+    title: "Load Balancer Shape"
+    enum:
+      - "flexible"
+      - "100Mbps"
+    visible:
+      eq:
+        create_lb: true
+ 
+  lb_subnet_id:
+    type: string
+    title: "LB Subnet OCID"
+    visible:
+      eq:
+        create_lb: true
+ 
+  # ============================
+  # WAF
+  # ============================
+  create_waf:
+    type: boolean
+    title: "Enable WAF?"
+    default: true
+ 
+  waf_name:
+    type: string
+    title: "WAF Name"
+    visible:
+      eq:
+        create_waf: true
+ 
+  waf_policy:
+    type: enum
+    title: "WAF Policy Type"
+    enum:
+      - "OCI_DEFAULT"
+      - "CUSTOM"
+    visible:
+      eq:
+        create_waf: true
