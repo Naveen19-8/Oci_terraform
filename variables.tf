@@ -25,8 +25,10 @@ variable "subnet_id" {
   type        = string
 }
 
+# 🔥 Dropdown single selection
 variable "backend_ips" {
-  type = string
+  description = "Backend IP"
+  type        = string
 }
 
 variable "existing_lb_id" {
@@ -34,6 +36,9 @@ variable "existing_lb_id" {
   type        = string
   default     = ""
 }
+
+# Optional (keep if using provider)
 variable "tenancy_ocid" {
-  type = string
+  type    = string
+  default = ""
 }
