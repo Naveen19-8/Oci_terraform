@@ -1,33 +1,18 @@
-title: "🚀 OCI Smart Deployment"
+title: "🚀 WAF Deployment (Instance + Network + LB + Nginx)"
 
-#########################################
-# COMPARTMENT
-#########################################
-create_compartment:
-  type: boolean
-  title: "Create New Compartment?"
-  default: false
+variableGroups:
 
-compartment_name:
-  type: string
-  title: "New Compartment Name"
-  visible:
-    eq:
-      create_compartment: true
-
-compartment_id:
-  type: enum
-  title: "Select Existing Compartment"
-  enum:
-    - "ocid1.compartment.oc1..devxxxxx"
-    - "ocid1.compartment.oc1..prodxxxxx"
-  visible:
-    eq:
-      create_compartment: false
+  - title: "Compartment"
+    variables:
+      - create_compartment
+      - compartment_name
+      - compartment_id
 
   - title: "Network"
     variables:
       - create_network
+      - vcn_cidr
+      - subnet_cidr
       - vcn_id
       - subnet_id
 
@@ -36,6 +21,7 @@ compartment_id:
       - create_instance
       - instance_name
       - instance_count
+      - instance_private_ip
       - existing_instance_ips
 
   - title: "Load Balancer"
@@ -43,6 +29,7 @@ compartment_id:
       - create_lb
       - lb_name
       - lb_shape
+      - is_private_lb
 
 variables:
 
@@ -58,17 +45,15 @@ variables:
     type: string
     title: "New Compartment Name"
     visible:
-      - create_compartment
+      eq:
+        create_compartment: true
 
   compartment_id:
-    type: enum
-    title: "Select Existing Compartment"
-    enum:
-      - "ocid1.compartment.oc1..devxxxxx"
-      - "ocid1.compartment.oc1..prodxxxxx"
+    type: string
+    title: "Existing Compartment OCID"
     visible:
-      not:
-        - create_compartment
+      eq:
+        create_compartment: false
 
   #########################################
   # NETWORK
@@ -78,25 +63,33 @@ variables:
     title: "Create Network?"
     default: true
 
-  vcn_id:
-    type: enum
-    title: "Select Existing VCN"
-    enum:
-      - "ocid1.vcn.oc1..xxxx1"
-      - "ocid1.vcn.oc1..xxxx2"
+  vcn_cidr:
+    type: string
+    default: "10.0.0.0/16"
     visible:
-      not:
-        - create_network
+      eq:
+        create_network: true
+
+  subnet_cidr:
+    type: string
+    default: "10.0.1.0/24"
+    visible:
+      eq:
+        create_network: true
+
+  vcn_id:
+    type: string
+    title: "Existing VCN OCID"
+    visible:
+      eq:
+        create_network: false
 
   subnet_id:
-    type: enum
-    title: "Select Existing Subnet"
-    enum:
-      - "ocid1.subnet.oc1..xxxx1"
-      - "ocid1.subnet.oc1..xxxx2"
+    type: string
+    title: "Existing Subnet OCID"
     visible:
-      not:
-        - create_network
+      eq:
+        create_network: false
 
   #########################################
   # INSTANCE
@@ -109,20 +102,29 @@ variables:
   instance_name:
     type: string
     visible:
-      - create_instance
+      eq:
+        create_instance: true
 
   instance_count:
     type: number
-    default: 2
+    default: 1
     visible:
-      - create_instance
+      eq:
+        create_instance: true
+
+  instance_private_ip:
+    type: string
+    title: "Private IP (optional)"
+    visible:
+      eq:
+        create_instance: true
 
   existing_instance_ips:
     type: string
     title: "Existing Instance IPs (comma separated)"
     visible:
-      not:
-        - create_instance
+      eq:
+        create_instance: false
 
   #########################################
   # LOAD BALANCER
@@ -141,3 +143,6 @@ variables:
       - flexible
       - 100Mbps
       - 400Mbps
+
+  is_private_lb:
+    type: boolean
