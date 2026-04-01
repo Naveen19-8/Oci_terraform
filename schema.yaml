@@ -53,10 +53,9 @@ variables:
   #########################################
   # 🔥 COMPARTMENT (DROPDOWN)
   #########################################
- compartment_id:
-  type: oci:identity:compartment:id
-  title: "Select Compartment"
-  required: true
+compartment_id:
+  type: string
+  title: "Compartment (Auto-filled)"
   #########################################
   # 🔥 SUBNET (DYNAMIC FILTER)
   #########################################
@@ -79,3 +78,6 @@ variables:
     visible:
       not:
         - create_lb
+
+
+
