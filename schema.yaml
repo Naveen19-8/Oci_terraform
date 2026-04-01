@@ -1,4 +1,5 @@
-title: "SCHEMA WORKING"
+title: "🚀 OCI Load Balancer Deployment"
+
 variableGroups:
   - title: "Compartment Configuration"
     variables:
@@ -35,7 +36,7 @@ variables:
     default: false
 
   #########################################
-  # NEW COMPARTMENT NAME (VISIBLE IF CREATE)
+  # NEW COMPARTMENT NAME
   #########################################
   compartment_name:
     type: string
@@ -44,18 +45,18 @@ variables:
       - create_compartment
 
   #########################################
-  # EXISTING COMPARTMENT (VISIBLE IF NOT CREATE)
+  # EXISTING COMPARTMENT DROPDOWN
   #########################################
   compartment_id:
-  type: enum
-  title: "Select Compartment"
-  required: true
-  enum:
-    - "ocid1.compartment.oc1..devxxxxx"
-    - "ocid1.compartment.oc1..prodxxxxx"
-  visible:
-    not:
-      - create_compartment
+    type: enum
+    title: "Select Compartment"
+    required: true
+    enum:
+      - "ocid1.compartment.oc1..devxxxxx"
+      - "ocid1.compartment.oc1..prodxxxxx"
+    visible:
+      not:
+        - create_compartment
 
   #########################################
   # LOAD BALANCER CONFIG
@@ -99,7 +100,7 @@ variables:
       - "10.0.1.12"
 
   #########################################
-  # EXISTING LB
+  # EXISTING LOAD BALANCER
   #########################################
   existing_lb_id:
     type: string
