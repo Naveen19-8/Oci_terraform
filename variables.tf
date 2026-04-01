@@ -1,3 +1,7 @@
+#############################################
+# BASIC CONFIGURATION
+#############################################
+
 variable "create_lb" {
   description = "Create new Load Balancer"
   type        = bool
@@ -15,6 +19,10 @@ variable "lb_shape" {
   default     = "flexible"
 }
 
+#############################################
+# NETWORK CONFIGURATION
+#############################################
+
 variable "compartment_id" {
   description = "Compartment OCID"
   type        = string
@@ -25,11 +33,18 @@ variable "subnet_id" {
   type        = string
 }
 
-# 🔥 Dropdown single selection
+#############################################
+# BACKEND CONFIGURATION (DROPDOWN SINGLE)
+#############################################
+
 variable "backend_ips" {
-  description = "Backend IP"
+  description = "Backend IP (selected from dropdown)"
   type        = string
 }
+
+#############################################
+# EXISTING LOAD BALANCER (OPTIONAL)
+#############################################
 
 variable "existing_lb_id" {
   description = "Existing Load Balancer OCID"
@@ -37,8 +52,18 @@ variable "existing_lb_id" {
   default     = ""
 }
 
-# Optional (keep if using provider)
+#############################################
+# OPTIONAL PROVIDER SETTINGS
+#############################################
+
+variable "region" {
+  description = "OCI Region"
+  type        = string
+  default     = "ap-mumbai-1"
+}
+
 variable "tenancy_ocid" {
-  type    = string
-  default = ""
+  description = "Tenancy OCID"
+  type        = string
+  default     = ""
 }
