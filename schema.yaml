@@ -60,12 +60,7 @@ variables:
   #########################################
   # 🔥 SUBNET (DYNAMIC FILTER)
   #########################################
-subnet_id:
-  type: oci:core:subnet:id
-  title: "Select Subnet"
-  required: true
-  dependsOn:
-    compartmentId: compartment_id
+
 
   #########################################
   # BACKEND IPS
