@@ -76,3 +76,12 @@ variable "tenancy_ocid" {
   type        = string
   default     = ""
 }
+
+variable "create_compartment" {
+  type    = bool
+  default = false
+}
+
+variable "compartment_name" {
+  type = string
+}
