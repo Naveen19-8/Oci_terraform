@@ -1,4 +1,4 @@
-title: "🚀 OCI Full Automation"
+title: "🚀 OCI Smart Deployment"
 
 variableGroups:
   - title: "Compartment"
@@ -10,8 +10,6 @@ variableGroups:
   - title: "Network"
     variables:
       - create_network
-      - vcn_cidr
-      - subnet_cidr
       - vcn_id
       - subnet_id
 
@@ -27,55 +25,67 @@ variableGroups:
       - create_lb
       - lb_name
       - lb_shape
-      - is_private_lb
 
 variables:
 
+  #########################################
+  # COMPARTMENT
+  #########################################
   create_compartment:
     type: boolean
+    title: "Create New Compartment?"
     default: false
 
   compartment_name:
     type: string
+    title: "New Compartment Name"
     visible:
       - create_compartment
 
   compartment_id:
-    type: string
+    type: enum
+    title: "Select Existing Compartment"
+    enum:
+      - "ocid1.compartment.oc1..devxxxxx"
+      - "ocid1.compartment.oc1..prodxxxxx"
     visible:
       not:
         - create_compartment
 
+  #########################################
+  # NETWORK
+  #########################################
   create_network:
     type: boolean
+    title: "Create Network?"
     default: true
 
-  vcn_cidr:
-    type: string
-    default: "10.0.0.0/16"
-    visible:
-      - create_network
-
-  subnet_cidr:
-    type: string
-    default: "10.0.1.0/24"
-    visible:
-      - create_network
-
   vcn_id:
-    type: string
+    type: enum
+    title: "Select Existing VCN"
+    enum:
+      - "ocid1.vcn.oc1..xxxx1"
+      - "ocid1.vcn.oc1..xxxx2"
     visible:
       not:
         - create_network
 
   subnet_id:
-    type: string
+    type: enum
+    title: "Select Existing Subnet"
+    enum:
+      - "ocid1.subnet.oc1..xxxx1"
+      - "ocid1.subnet.oc1..xxxx2"
     visible:
       not:
         - create_network
 
+  #########################################
+  # INSTANCE
+  #########################################
   create_instance:
     type: boolean
+    title: "Create Instance?"
     default: true
 
   instance_name:
@@ -91,12 +101,17 @@ variables:
 
   existing_instance_ips:
     type: string
+    title: "Existing Instance IPs (comma separated)"
     visible:
       not:
         - create_instance
 
+  #########################################
+  # LOAD BALANCER
+  #########################################
   create_lb:
     type: boolean
+    title: "Create Load Balancer?"
     default: true
 
   lb_name:
@@ -108,6 +123,3 @@ variables:
       - flexible
       - 100Mbps
       - 400Mbps
-
-  is_private_lb:
-    type: boolean
