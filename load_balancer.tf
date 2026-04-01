@@ -1,11 +1,8 @@
-variable "subnet_id" {}
-variable "lb_type" {}
-variable "backends" {}
-
 resource "oci_load_balancer_load_balancer" "lb" {
-  compartment_id = var.subnet_id
-  shape = "flexible"
+  count          = var.create_lb ? 1 : 0
+  compartment_id = var.compartment_id
+  display_name   = var.lb_name
+  shape          = var.lb_shape
 
-  is_private = var.lb_type == "private"
   subnet_ids = [var.subnet_id]
 }
