@@ -53,20 +53,19 @@ variables:
   #########################################
   # 🔥 COMPARTMENT (DROPDOWN)
   #########################################
-  compartment_id:
-    type: oci:identity:compartment:id
-    title: "Select Compartment"
-    required: true
-
+ compartment_id:
+  type: oci:identity:compartment:id
+  title: "Select Compartment"
+  required: true
   #########################################
   # 🔥 SUBNET (DYNAMIC FILTER)
   #########################################
-  subnet_id:
-    type: oci:core:subnet:id
-    title: "Select Subnet"
-    required: true
-    dependsOn:
-      compartmentId: compartment_id
+subnet_id:
+  type: oci:core:subnet:id
+  title: "Select Subnet"
+  required: true
+  dependsOn:
+    compartmentId: compartment_id
 
   #########################################
   # BACKEND IPS
