@@ -89,9 +89,9 @@ resource "oci_load_balancer_backend" "backend" {
   count = var.create_lb ? length(local.backend_ips) : 0
 
   load_balancer_id = oci_load_balancer_load_balancer.lb[0].id
-  backendset_name  = "backendset1"
+  backendset_name  = oci_load_balancer_backend_set.backend_set[0].name
 
-  ip_address = local.backend_ips[count.index]
+  ip_address = local.backend_ips[count.index]   # ✅ ADD HERE
   port       = 80
 }
 
