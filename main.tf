@@ -7,7 +7,7 @@ locals {
 }
 
 #############################################
-# Create Load Balancer (only if enabled)
+# Create Load Balancer
 #############################################
 
 resource "oci_load_balancer_load_balancer" "lb" {
@@ -19,7 +19,6 @@ resource "oci_load_balancer_load_balancer" "lb" {
 
   subnet_ids = [var.subnet_id]
 
-  # Optional (recommended for flexible shape)
   dynamic "shape_details" {
     for_each = var.lb_shape == "flexible" ? [1] : []
     content {
@@ -30,7 +29,7 @@ resource "oci_load_balancer_load_balancer" "lb" {
 }
 
 #############################################
-# Backend Set (only if LB created)
+# Backend Set
 #############################################
 
 resource "oci_load_balancer_backend_set" "backend_set" {
@@ -47,16 +46,16 @@ resource "oci_load_balancer_backend_set" "backend_set" {
 }
 
 #############################################
-# Backends (loop through IPs)
+# Backend (single)
 #############################################
 
 resource "oci_load_balancer_backend" "backend" {
-  count = local.create_lb ? length(var.backend_ips) : 0
+  count = local.create_lb ? 1 : 0
 
   load_balancer_id = oci_load_balancer_load_balancer.lb[0].id
   backendset_name  = oci_load_balancer_backend_set.backend_set[0].name
 
-  ip_address = var.backend_ips[count.index]
+  ip_address = var.backend_ips
   port       = 80
 }
 
