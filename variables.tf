@@ -36,3 +36,6 @@ variable "existing_lb_id" {
   type        = string
   default     = ""
 }
+variable "tenancy_ocid" {
+  type = string
+}
