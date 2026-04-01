@@ -62,6 +62,15 @@ variable "region" {
   default     = "ap-mumbai-1"
 }
 
+variable "compartment_name" {
+  description = "New Compartment Name"
+  type        = string
+}
+
+variable "tenancy_ocid" {
+  description = "Tenancy OCID"
+  type        = string
+}
 variable "tenancy_ocid" {
   description = "Tenancy OCID"
   type        = string
