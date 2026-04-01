@@ -1,110 +1,109 @@
-title: "🚀 OCI Load Balancer Deployment"
+title: "🚀 OCI Full Deployment"
 
 variableGroups:
-  - title: "Compartment Configuration"
+  - title: "Compartment"
     variables:
       - create_compartment
       - compartment_name
       - compartment_id
 
-  - title: "Basic Configuration"
+  - title: "Network"
+    variables:
+      - create_network
+      - vcn_cidr
+      - subnet_cidr
+      - vcn_id
+      - subnet_id
+
+  - title: "Compute"
+    variables:
+      - create_instance
+      - instance_name
+      - instance_count
+      - existing_instance_ips
+
+  - title: "Load Balancer"
     variables:
       - create_lb
       - lb_name
       - lb_shape
 
-  - title: "Network Configuration"
-    variables:
-      - subnet_id
-
-  - title: "Backend Configuration"
-    variables:
-      - backend_ips
-
-  - title: "Existing Load Balancer"
-    variables:
-      - existing_lb_id
-
 variables:
 
-  #########################################
-  # CREATE OR USE COMPARTMENT
-  #########################################
   create_compartment:
     type: boolean
-    title: "Create New Compartment?"
     default: false
 
-  #########################################
-  # NEW COMPARTMENT NAME
-  #########################################
   compartment_name:
     type: string
-    title: "New Compartment Name"
     visible:
       - create_compartment
 
-  #########################################
-  # EXISTING COMPARTMENT DROPDOWN
-  #########################################
   compartment_id:
-    type: enum
-    title: "Select Compartment"
-    required: true
-    enum:
-      - "ocid1.compartment.oc1..devxxxxx"
-      - "ocid1.compartment.oc1..prodxxxxx"
+    type: string
     visible:
       not:
         - create_compartment
 
-  #########################################
-  # LOAD BALANCER CONFIG
-  #########################################
+  create_network:
+    type: boolean
+    default: true
+
+  vcn_cidr:
+    type: string
+    default: "10.0.0.0/16"
+    visible:
+      - create_network
+
+  subnet_cidr:
+    type: string
+    default: "10.0.1.0/24"
+    visible:
+      - create_network
+
+  vcn_id:
+    type: string
+    visible:
+      not:
+        - create_network
+
+  subnet_id:
+    type: string
+    visible:
+      not:
+        - create_network
+
+  create_instance:
+    type: boolean
+    default: true
+
+  instance_name:
+    type: string
+    visible:
+      - create_instance
+
+  instance_count:
+    type: number
+    default: 2
+    visible:
+      - create_instance
+
+  existing_instance_ips:
+    type: string
+    visible:
+      not:
+        - create_instance
+
   create_lb:
     type: boolean
-    title: "Create New Load Balancer?"
     default: true
 
   lb_name:
     type: string
-    title: "Load Balancer Name"
-    required: true
 
   lb_shape:
     type: enum
-    title: "Load Balancer Shape"
     enum:
       - flexible
       - 100Mbps
       - 400Mbps
-    default: flexible
-
-  #########################################
-  # NETWORK
-  #########################################
-  subnet_id:
-    type: string
-    title: "Subnet OCID"
-
-  #########################################
-  # BACKEND IP DROPDOWN
-  #########################################
-  backend_ips:
-    type: enum
-    title: "Select Backend IP"
-    required: true
-    enum:
-      - "10.0.1.10"
-      - "10.0.1.11"
-      - "10.0.1.12"
-
-  #########################################
-  # EXISTING LOAD BALANCER
-  #########################################
-  existing_lb_id:
-    type: string
-    title: "Existing Load Balancer OCID"
-    visible:
-      not:
-        - create_lb
