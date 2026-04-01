@@ -1,221 +1,171 @@
 schemaVersion: 1.1
 version: "20220101"
-locale: "en"
- 
-title: "🚀 WAF + LB + Compute Accelerator"
- 
-# --------------------------------------------------
-# UI GROUPING (VERY IMPORTANT)
-# --------------------------------------------------
+locale: en
+title: 🚀 WAF + LB + Compute Accelerator
 variableGroups:
- 
-  - title: "📦 Compartment Configuration"
+  - title: 📦 Compartment Configuration
     variables:
       - create_compartment
       - compartment_name
       - compartment_id
- 
-  - title: "🌐 Network Configuration"
+  - title: 🌐 Network Configuration
     variables:
       - create_network
       - vcn_name
       - subnet_type
       - existing_vcn_id
       - existing_subnet_id
- 
-  - title: "💻 Compute Instance Configuration"
+  - title: 💻 Compute Instance Configuration
     variables:
       - create_instance
       - instance_name
       - instance_shape
       - instance_private_ip
       - existing_instance_id
- 
-  - title: "⚖️ Load Balancer Configuration"
+  - title: ⚖️ Load Balancer Configuration
     variables:
       - create_lb
       - lb_name
       - lb_shape
       - is_private_lb
- 
-  - title: "🛡️ WAF Configuration"
+  - title: 🛡️ WAF Configuration
     variables:
       - create_waf
       - waf_name
       - waf_policy
- 
- 
-# --------------------------------------------------
-# VARIABLES
-# --------------------------------------------------
 variables:
- 
-  # ==================================================
-  # COMPARTMENT
-  # ==================================================
   create_compartment:
     type: enum
-    title: "Compartment Option"
+    title: Compartment Option
     enum:
-      - "Create"
-      - "Use Existing"
- 
+      - Create
+      - Use Existing
   compartment_name:
     type: string
-    title: "New Compartment Name"
+    title: New Compartment Name
     visible:
       eq:
-        create_compartment: "Create"
- 
+        create_compartment: Create
   compartment_id:
     type: string
-    title: "Existing Compartment OCID"
+    title: Existing Compartment OCID
     visible:
       eq:
-        create_compartment: "Use Existing"
- 
-  # ==================================================
-  # NETWORK
-  # ==================================================
+        create_compartment: Use Existing
   create_network:
     type: enum
-    title: "Network Option"
+    title: Network Option
     enum:
-      - "Create"
-      - "Use Existing"
- 
+      - Create
+      - Use Existing
   vcn_name:
     type: string
-    title: "VCN Name"
+    title: VCN Name
     visible:
       eq:
-        create_network: "Create"
- 
+        create_network: Create
   subnet_type:
     type: enum
-    title: "Subnet Type"
+    title: Subnet Type
     enum:
-      - "public"
-      - "private"
+      - public
+      - private
     visible:
       eq:
-        create_network: "Create"
- 
+        create_network: Create
   existing_vcn_id:
     type: string
-    title: "Existing VCN OCID"
+    title: Existing VCN OCID
     visible:
       eq:
-        create_network: "Use Existing"
- 
+        create_network: Use Existing
   existing_subnet_id:
     type: string
-    title: "Existing Subnet OCID"
+    title: Existing Subnet OCID
     visible:
       eq:
-        create_network: "Use Existing"
- 
-  # ==================================================
-  # INSTANCE
-  # ==================================================
+        create_network: Use Existing
   create_instance:
     type: enum
-    title: "Instance Option"
+    title: Instance Option
     enum:
-      - "Create"
-      - "Use Existing"
- 
+      - Create
+      - Use Existing
   instance_name:
     type: string
-    title: "Instance Name"
+    title: Instance Name
     visible:
       eq:
-        create_instance: "Create"
- 
+        create_instance: Create
   instance_shape:
     type: enum
-    title: "Instance Shape"
+    title: Instance Shape
     enum:
-      - "VM.Standard.E4.Flex"
-      - "VM.Standard.E3.Flex"
+      - VM.Standard.E4.Flex
+      - VM.Standard.E3.Flex
     visible:
       eq:
-        create_instance: "Create"
- 
+        create_instance: Create
   instance_private_ip:
     type: string
-    title: "Private IP (Optional)"
+    title: Private IP (Optional)
     visible:
       eq:
-        create_instance: "Create"
- 
+        create_instance: Create
   existing_instance_id:
     type: string
-    title: "Existing Instance OCID"
+    title: Existing Instance OCID
     visible:
       eq:
-        create_instance: "Use Existing"
- 
-  # ==================================================
-  # LOAD BALANCER
-  # ==================================================
+        create_instance: Use Existing
   create_lb:
     type: enum
-    title: "Load Balancer Option"
+    title: Load Balancer Option
     enum:
-      - "Create"
-      - "Skip"
- 
+      - Create
+      - Skip
   lb_name:
     type: string
-    title: "Load Balancer Name"
+    title: Load Balancer Name
     visible:
       eq:
-        create_lb: "Create"
- 
+        create_lb: Create
   lb_shape:
     type: enum
-    title: "Load Balancer Shape"
+    title: Load Balancer Shape
     enum:
-      - "flexible"
-      - "100Mbps"
+      - flexible
+      - 100Mbps
     visible:
       eq:
-        create_lb: "Create"
- 
+        create_lb: Create
   is_private_lb:
     type: enum
-    title: "LB Type"
+    title: LB Type
     enum:
-      - "Public"
-      - "Private"
+      - Public
+      - Private
     visible:
       eq:
-        create_lb: "Create"
- 
-  # ==================================================
-  # WAF
-  # ==================================================
+        create_lb: Create
   create_waf:
     type: enum
-    title: "WAF Option"
+    title: WAF Option
     enum:
-      - "Enable"
-      - "Disable"
- 
+      - Enable
+      - Disable
   waf_name:
     type: string
-    title: "WAF Name"
+    title: WAF Name
     visible:
       eq:
-        create_waf: "Enable"
- 
+        create_waf: Enable
   waf_policy:
     type: enum
-    title: "WAF Policy"
+    title: WAF Policy
     enum:
-      - "OCI_DEFAULT"
-      - "CUSTOM"
+      - OCI_DEFAULT
+      - CUSTOM
     visible:
       eq:
-        create_waf: "Enable"
+        create_waf: Enable
