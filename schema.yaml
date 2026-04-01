@@ -64,10 +64,13 @@ compartment_id:
   #########################################
   # BACKEND IPS
   #########################################
-  backend_ips:
-    type: list(string)
-    title: "Backend Private IPs"
-    description: "Example: 10.0.1.10, 10.0.1.11"
+backend_ips:
+  type: enum
+  title: "Select Backend IP"
+  enum:
+    - 10.0.1.10
+    - 10.0.1.11
+    - 10.0.1.12
 
   #########################################
   # EXISTING LB (CONDITIONAL)
