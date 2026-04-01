@@ -54,8 +54,12 @@ variables:
   # 🔥 COMPARTMENT (DROPDOWN)
   #########################################
 compartment_id:
-  type: string
-  title: "Compartment (Auto-filled)"
+  type: enum
+  title: "Select Compartment"
+  required: true
+  enum:
+    - ocid1.compartment.oc1..dev123
+    - ocid1.compartment.oc1..prod456
   #########################################
   # 🔥 SUBNET (DYNAMIC FILTER)
   #########################################
@@ -71,7 +75,6 @@ backend_ips:
     - 10.0.1.10
     - 10.0.1.11
     - 10.0.1.12
-
   #########################################
   # EXISTING LB (CONDITIONAL)
   #########################################
