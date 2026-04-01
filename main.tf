@@ -1,54 +1,75 @@
-module "compartment" {
-  source = "./modules/compartment"
-  create = var.create_compartment
-  name   = "${var.prefix}-cmp"
-  existing_id = var.existing_compartment_id
+#############################################
+# OCI Load Balancer - Main Entry
+#############################################
+
+locals {
+  create_lb = var.create_lb
 }
 
-module "network" {
-  source = "./modules/network"
-  create_vcn = var.create_vcn
-  separate_subnets = var.separate_subnets
-  compartment_id = module.compartment.compartment_id
-  prefix = var.prefix
+#############################################
+# Create Load Balancer (only if enabled)
+#############################################
+
+resource "oci_load_balancer_load_balancer" "lb" {
+  count = local.create_lb ? 1 : 0
+
+  compartment_id = var.compartment_id
+  display_name   = var.lb_name
+  shape          = var.lb_shape
+
+  subnet_ids = [var.subnet_id]
+
+  # Optional (recommended for flexible shape)
+  dynamic "shape_details" {
+    for_each = var.lb_shape == "flexible" ? [1] : []
+    content {
+      minimum_bandwidth_in_mbps = 10
+      maximum_bandwidth_in_mbps = 100
+    }
+  }
 }
 
-module "image" {
-  source = "./modules/image_lookup"
-  compartment_id = module.compartment.compartment_id
+#############################################
+# Backend Set (only if LB created)
+#############################################
+
+resource "oci_load_balancer_backend_set" "backend_set" {
+  count            = local.create_lb ? 1 : 0
+  name             = "backendset1"
+  load_balancer_id = oci_load_balancer_load_balancer.lb[0].id
+  policy           = "ROUND_ROBIN"
+
+  health_checker {
+    protocol = "HTTP"
+    port     = 80
+    url_path = "/"
+  }
 }
 
-module "app" {
-  source = "./modules/compute_app"
-  count  = var.deploy_app ? 1 : 0
+#############################################
+# Backends (loop through IPs)
+#############################################
 
-  instance_count = var.app_count
-  compartment_id = module.compartment.compartment_id
-  subnet_id      = module.network.app_subnet_id
-  shape          = var.app_shape
-  ssh_key        = var.ssh_public_key
-  image_id       = var.image_id != "" ? var.image_id : module.image.image_id
-  prefix         = var.prefix
+resource "oci_load_balancer_backend" "backend" {
+  count = local.create_lb ? length(var.backend_ips) : 0
+
+  load_balancer_id = oci_load_balancer_load_balancer.lb[0].id
+  backendset_name  = oci_load_balancer_backend_set.backend_set[0].name
+
+  ip_address = var.backend_ips[count.index]
+  port       = 80
 }
 
-module "db" {
-  source = "./modules/compute_db"
-  count  = var.deploy_db ? 1 : 0
+#############################################
+# Listener
+#############################################
 
-  instance_count = var.db_count
-  compartment_id = module.compartment.compartment_id
-  subnet_id      = var.separate_subnets ? module.network.db_subnet_id : module.network.app_subnet_id
-  shape          = var.db_shape
-  ssh_key        = var.ssh_public_key
-  image_id       = module.image.image_id
-  prefix         = var.prefix
-}
+resource "oci_load_balancer_listener" "listener" {
+  count = local.create_lb ? 1 : 0
 
-module "lb" {
-  source = "./modules/load_balancer"
-  count  = var.deploy_lb ? 1 : 0
-
-  subnet_id = module.network.app_subnet_id
-  lb_type   = var.lb_type
-  backends  = var.auto_attach_lb && var.deploy_app ? module.app[0].private_ips : []
+  load_balancer_id         = oci_load_balancer_load_balancer.lb[0].id
+  name                     = "http_listener"
+  default_backend_set_name = oci_load_balancer_backend_set.backend_set[0].name
+  port                     = 80
+  protocol                 = "HTTP"
 }
