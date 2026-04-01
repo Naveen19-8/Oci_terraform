@@ -1,4 +1,4 @@
-title: "🚀 WAF Deployment (Instance + Network + LB + Nginx)"
+title: "🚀 WAF Deployment"
 
 variableGroups:
 
@@ -33,9 +33,6 @@ variableGroups:
 
 variables:
 
-  #########################################
-  # COMPARTMENT
-  #########################################
   create_compartment:
     type: boolean
     title: "Create New Compartment?"
@@ -55,9 +52,6 @@ variables:
       eq:
         create_compartment: false
 
-  #########################################
-  # NETWORK
-  #########################################
   create_network:
     type: boolean
     title: "Create Network?"
@@ -91,9 +85,6 @@ variables:
       eq:
         create_network: false
 
-  #########################################
-  # INSTANCE
-  #########################################
   create_instance:
     type: boolean
     title: "Create Instance?"
@@ -114,7 +105,6 @@ variables:
 
   instance_private_ip:
     type: string
-    title: "Private IP (optional)"
     visible:
       eq:
         create_instance: true
@@ -126,9 +116,6 @@ variables:
       eq:
         create_instance: false
 
-  #########################################
-  # LOAD BALANCER
-  #########################################
   create_lb:
     type: boolean
     title: "Create Load Balancer?"
@@ -136,6 +123,7 @@ variables:
 
   lb_name:
     type: string
+    title: "Load Balancer Name"
 
   lb_shape:
     type: enum
@@ -143,6 +131,8 @@ variables:
       - flexible
       - 100Mbps
       - 400Mbps
+    default: flexible
 
   is_private_lb:
     type: boolean
+    title: "Private Load Balancer?"
