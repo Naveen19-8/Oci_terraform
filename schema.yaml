@@ -22,25 +22,16 @@ variableGroups:
 
 variables:
 
-  #########################################
-  # CREATE LB TOGGLE
-  #########################################
   create_lb:
     type: boolean
     title: "Create New Load Balancer?"
     default: true
 
-  #########################################
-  # LB NAME
-  #########################################
   lb_name:
     type: string
     title: "Load Balancer Name"
     required: true
 
-  #########################################
-  # LB SHAPE DROPDOWN
-  #########################################
   lb_shape:
     type: enum
     title: "Load Balancer Shape"
@@ -50,28 +41,36 @@ variables:
       - 400Mbps
     default: flexible
 
-#########################################
-# COMPARTMENT DROPDOWN
-#########################################
-compartment_id:
-  type: enum
-  title: "Select Compartment"
-  required: true
-  enum:
-    - ocid1.compartment.oc1..devxxxxx
-    - ocid1.compartment.oc1..prodxxxxx
+  #########################################
+  # COMPARTMENT DROPDOWN
+  #########################################
+  compartment_id:
+    type: enum
+    title: "Select Compartment"
+    required: true
+    enum:
+      - "ocid1.compartment.oc1..devxxxxx"
+      - "ocid1.compartment.oc1..prodxxxxx"
 
-#########################################
-# BACKEND IP DROPDOWN
-#########################################
-backend_ips:
-  type: enum
-  title: "Select Backend IP"
-  required: true
-  enum:
-    - 10.0.1.10
-    - 10.0.1.11
-    - 10.0.1.12
+  #########################################
+  # SUBNET (keep as string or enum later)
+  #########################################
+  subnet_id:
+    type: string
+    title: "Subnet OCID"
+
+  #########################################
+  # BACKEND IP DROPDOWN
+  #########################################
+  backend_ips:
+    type: enum
+    title: "Select Backend IP"
+    required: true
+    enum:
+      - "10.0.1.10"
+      - "10.0.1.11"
+      - "10.0.1.12"
+
   #########################################
   # EXISTING LB (CONDITIONAL)
   #########################################
@@ -81,6 +80,3 @@ backend_ips:
     visible:
       not:
         - create_lb
-
-
-
