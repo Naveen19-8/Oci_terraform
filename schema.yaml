@@ -129,3 +129,19 @@ variables:
       - 100Mbps
       - 400Mbps
     default: flexible
+
+schemaVersion: 1.1
+version: "20190404"
+locale: "en"
+
+title: "Test"
+
+variables:
+  test_bool:
+    type: boolean
+
+  test_enum:
+    type: enum
+    enum:
+      - one
+      - two
