@@ -2,7 +2,9 @@
 # FINAL COMPARTMENT
 #########################################
 locals {
-  final_compartment_id = var.create_compartment ? oci_identity_compartment.comp[0].id : var.compartment_id
+  final_compartment_id = var.create_compartment
+    ? oci_identity_compartment.comp[0].id
+    : var.compartment_id
 }
 
 #########################################
@@ -11,8 +13,8 @@ locals {
 resource "oci_identity_compartment" "comp" {
   count = var.create_compartment ? 1 : 0
 
-  name          = var.compartment_name
-  description   = "Created via Terraform"
+  name           = var.compartment_name
+  description    = "Created via Terraform"
   compartment_id = var.compartment_id
 }
 
@@ -35,14 +37,17 @@ resource "oci_core_subnet" "subnet" {
 }
 
 #########################################
-# COMPUTE
+# INSTANCE
 #########################################
 resource "oci_core_instance" "app" {
   count = var.create_instance ? var.instance_count : 0
 
-  display_name = "${var.instance_name}-${count.index}"
+  display_name   = "${var.instance_name}-${count.index}"
   compartment_id = local.final_compartment_id
-  subnet_id = var.create_network ? oci_core_subnet.subnet[0].id : var.subnet_id
+
+  subnet_id = var.create_network
+    ? oci_core_subnet.subnet[0].id
+    : var.subnet_id
 
   shape = "VM.Standard.E2.1.Micro"
 
@@ -53,12 +58,12 @@ resource "oci_core_instance" "app" {
 }
 
 #########################################
-# COLLECT BACKEND IPS
+# BACKEND IPS
 #########################################
 locals {
-  backend_ips = var.create_instance ?
-    [for i in oci_core_instance.app : i.private_ip] :
-    split(",", var.existing_instance_ips)
+  backend_ips = var.create_instance
+    ? [for i in oci_core_instance.app : i.private_ip]
+    : split(",", var.existing_instance_ips)
 }
 
 #########################################
@@ -71,7 +76,13 @@ resource "oci_load_balancer_load_balancer" "lb" {
   display_name   = var.lb_name
   shape          = var.lb_shape
 
-  subnet_ids = [var.create_network ? oci_core_subnet.subnet[0].id : var.subnet_id]
+  subnet_ids = [
+    var.create_network
+    ? oci_core_subnet.subnet[0].id
+    : var.subnet_id
+  ]
+
+  is_private = var.is_private_lb
 }
 
 resource "oci_load_balancer_backend" "backend" {
