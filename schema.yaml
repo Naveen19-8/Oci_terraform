@@ -48,14 +48,15 @@ variables:
   # EXISTING COMPARTMENT (VISIBLE IF NOT CREATE)
   #########################################
   compartment_id:
-    type: enum
-    title: "Select Existing Compartment"
-    enum:
-      - "ocid1.compartment.oc1..devxxxxx"
-      - "ocid1.compartment.oc1..prodxxxxx"
-    visible:
-      not:
-        - create_compartment
+  type: enum
+  title: "Select Compartment"
+  required: true
+  enum:
+    - "ocid1.compartment.oc1..devxxxxx"
+    - "ocid1.compartment.oc1..prodxxxxx"
+  visible:
+    not:
+      - create_compartment
 
   #########################################
   # LOAD BALANCER CONFIG
