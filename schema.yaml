@@ -50,27 +50,24 @@ variables:
       - 400Mbps
     default: flexible
 
-  #########################################
-  # 🔥 COMPARTMENT (DROPDOWN)
-  #########################################
+#########################################
+# COMPARTMENT DROPDOWN
+#########################################
 compartment_id:
   type: enum
   title: "Select Compartment"
   required: true
   enum:
-    - ocid1.compartment.oc1..dev123
-    - ocid1.compartment.oc1..prod456
-  #########################################
-  # 🔥 SUBNET (DYNAMIC FILTER)
-  #########################################
+    - ocid1.compartment.oc1..devxxxxx
+    - ocid1.compartment.oc1..prodxxxxx
 
-
-  #########################################
-  # BACKEND IPS
-  #########################################
+#########################################
+# BACKEND IP DROPDOWN
+#########################################
 backend_ips:
   type: enum
   title: "Select Backend IP"
+  required: true
   enum:
     - 10.0.1.10
     - 10.0.1.11
