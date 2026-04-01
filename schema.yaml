@@ -1,21 +1,87 @@
+title: "🚀 OCI Load Balancer Deployment"
+
+variableGroups:
+  - title: "Basic Configuration"
+    variables:
+      - create_lb
+      - lb_name
+      - lb_shape
+
+  - title: "Network Configuration"
+    variables:
+      - compartment_id
+      - subnet_id
+
+  - title: "Backend Configuration"
+    variables:
+      - backend_ips
+
+  - title: "Existing Load Balancer"
+    variables:
+      - existing_lb_id
+
 variables:
 
-  create:
+  #########################################
+  # CREATE LB TOGGLE
+  #########################################
+  create_lb:
     type: boolean
-    title: "Create Load Balancer"
+    title: "Create New Load Balancer?"
+    default: true
 
-  name:
+  #########################################
+  # LB NAME
+  #########################################
+  lb_name:
     type: string
     title: "Load Balancer Name"
+    required: true
 
-  lb_type:
+  #########################################
+  # LB SHAPE DROPDOWN
+  #########################################
+  lb_shape:
     type: enum
+    title: "Load Balancer Shape"
     enum:
       - flexible
       - 100Mbps
+      - 400Mbps
+    default: flexible
 
-  existing_id:
-    type: string
+  #########################################
+  # 🔥 COMPARTMENT (DROPDOWN)
+  #########################################
+  compartment_id:
+    type: oci:identity:compartment:id
+    title: "Select Compartment"
+    required: true
 
-  backends:
+  #########################################
+  # 🔥 SUBNET (DYNAMIC FILTER)
+  #########################################
+  subnet_id:
+    type: oci:core:subnet:id
+    title: "Select Subnet"
+    required: true
+    dependsOn:
+      compartmentId: compartment_id
+
+  #########################################
+  # BACKEND IPS
+  #########################################
+  backend_ips:
     type: list(string)
+    title: "Backend Private IPs"
+    description: "Example: 10.0.1.10, 10.0.1.11"
+
+  #########################################
+  # EXISTING LB (CONDITIONAL)
+  #########################################
+  existing_lb_id:
+    type: string
+    title: "Existing Load Balancer OCID"
+    visible:
+      not:
+        - create_lb
