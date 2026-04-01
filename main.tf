@@ -94,3 +94,13 @@ resource "oci_load_balancer_backend" "backend" {
   ip_address = local.backend_ips[count.index]
   port       = 80
 }
+
+locals {
+  final_compartment_id = var.create_compartment
+    ? oci_identity_compartment.comp[0].id
+    : var.compartment_id
+
+  backend_ips = var.create_instance
+    ? [for i in oci_core_instance.app : i.private_ip]
+    : split(",", var.existing_instance_ips)
+}
