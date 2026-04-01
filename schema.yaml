@@ -1,6 +1,12 @@
 title: "🚀 OCI Load Balancer Deployment"
 
 variableGroups:
+  - title: "Compartment Configuration"
+    variables:
+      - create_compartment
+      - compartment_name
+      - compartment_id
+
   - title: "Basic Configuration"
     variables:
       - create_lb
@@ -9,7 +15,6 @@ variableGroups:
 
   - title: "Network Configuration"
     variables:
-      - compartment_id
       - subnet_id
 
   - title: "Backend Configuration"
@@ -22,6 +27,39 @@ variableGroups:
 
 variables:
 
+  #########################################
+  # CREATE OR USE COMPARTMENT
+  #########################################
+  create_compartment:
+    type: boolean
+    title: "Create New Compartment?"
+    default: false
+
+  #########################################
+  # NEW COMPARTMENT NAME (VISIBLE IF CREATE)
+  #########################################
+  compartment_name:
+    type: string
+    title: "New Compartment Name"
+    visible:
+      - create_compartment
+
+  #########################################
+  # EXISTING COMPARTMENT (VISIBLE IF NOT CREATE)
+  #########################################
+  compartment_id:
+    type: enum
+    title: "Select Existing Compartment"
+    enum:
+      - "ocid1.compartment.oc1..devxxxxx"
+      - "ocid1.compartment.oc1..prodxxxxx"
+    visible:
+      not:
+        - create_compartment
+
+  #########################################
+  # LOAD BALANCER CONFIG
+  #########################################
   create_lb:
     type: boolean
     title: "Create New Load Balancer?"
@@ -42,18 +80,7 @@ variables:
     default: flexible
 
   #########################################
-  # COMPARTMENT DROPDOWN
-  #########################################
-  compartment_id:
-    type: enum
-    title: "Select Compartment"
-    required: true
-    enum:
-      - "ocid1.compartment.oc1..devxxxxx"
-      - "ocid1.compartment.oc1..prodxxxxx"
-
-  #########################################
-  # SUBNET (keep as string or enum later)
+  # NETWORK
   #########################################
   subnet_id:
     type: string
@@ -72,7 +99,7 @@ variables:
       - "10.0.1.12"
 
   #########################################
-  # EXISTING LB (CONDITIONAL)
+  # EXISTING LB
   #########################################
   existing_lb_id:
     type: string
