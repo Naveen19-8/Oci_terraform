@@ -78,3 +78,17 @@ resource "oci_identity_compartment" "compartment" {
   description   = "Created via Terraform"
   compartment_id = var.tenancy_ocid
 }
+
+resource "oci_identity_compartment" "new" {
+  count = var.create_compartment ? 1 : 0
+
+  name           = var.compartment_name
+  description    = "Created via Terraform"
+  compartment_id = var.tenancy_ocid
+}
+
+locals {
+  final_compartment_id = var.create_compartment
+    ? oci_identity_compartment.new[0].id
+    : var.compartment_id
+}
