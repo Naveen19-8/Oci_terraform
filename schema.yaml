@@ -1,11 +1,29 @@
 title: "🚀 OCI Smart Deployment"
 
-variableGroups:
-  - title: "Compartment"
-    variables:
-      - create_compartment
-      - compartment_name
-      - compartment_id
+#########################################
+# COMPARTMENT
+#########################################
+create_compartment:
+  type: boolean
+  title: "Create New Compartment?"
+  default: false
+
+compartment_name:
+  type: string
+  title: "New Compartment Name"
+  visible:
+    eq:
+      create_compartment: true
+
+compartment_id:
+  type: enum
+  title: "Select Existing Compartment"
+  enum:
+    - "ocid1.compartment.oc1..devxxxxx"
+    - "ocid1.compartment.oc1..prodxxxxx"
+  visible:
+    eq:
+      create_compartment: false
 
   - title: "Network"
     variables:
