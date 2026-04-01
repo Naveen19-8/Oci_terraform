@@ -1,7 +1,6 @@
 title: "🚀 WAF Deployment"
 
 variableGroups:
-
   - title: "Compartment"
     variables:
       - create_compartment
@@ -29,7 +28,6 @@ variableGroups:
       - create_lb
       - lb_name
       - lb_shape
-      - is_private_lb
 
 variables:
 
@@ -111,7 +109,7 @@ variables:
 
   existing_instance_ips:
     type: string
-    title: "Existing Instance IPs (comma separated)"
+    title: "Existing Instance IPs"
     visible:
       eq:
         create_instance: false
@@ -123,7 +121,6 @@ variables:
 
   lb_name:
     type: string
-    title: "Load Balancer Name"
 
   lb_shape:
     type: enum
@@ -132,7 +129,3 @@ variables:
       - 100Mbps
       - 400Mbps
     default: flexible
-
-  is_private_lb:
-    type: boolean
-    title: "Private Load Balancer?"
