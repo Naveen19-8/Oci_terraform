@@ -4,9 +4,9 @@ locale: "en"
  
 title: "🚀 WAF + LB + Compute Accelerator"
  
-# -------------------------------
-# VARIABLE GROUPS (UI SECTIONS)
-# -------------------------------
+# --------------------------------------------------
+# UI GROUPING (VERY IMPORTANT)
+# --------------------------------------------------
 variableGroups:
  
   - title: "📦 Compartment Configuration"
@@ -36,7 +36,7 @@ variableGroups:
       - create_lb
       - lb_name
       - lb_shape
-      - lb_subnet_id
+      - is_private_lb
  
   - title: "🛡️ WAF Configuration"
     variables:
@@ -44,50 +44,52 @@ variableGroups:
       - waf_name
       - waf_policy
  
-# -------------------------------
+ 
+# --------------------------------------------------
 # VARIABLES
-# -------------------------------
+# --------------------------------------------------
 variables:
  
-  # ============================
+  # ==================================================
   # COMPARTMENT
-  # ============================
+  # ==================================================
   create_compartment:
-    type: boolean
-    title: "Create New Compartment?"
-    default: false
+    type: enum
+    title: "Compartment Option"
+    enum:
+      - "Create"
+      - "Use Existing"
  
   compartment_name:
     type: string
     title: "New Compartment Name"
     visible:
       eq:
-        create_compartment: true
+        create_compartment: "Create"
  
   compartment_id:
-    type: enum
-    title: "Select Existing Compartment"
-    enum:
-      - "ocid1.compartment.oc1..devxxxxx"
-      - "ocid1.compartment.oc1..prodxxxxx"
+    type: string
+    title: "Existing Compartment OCID"
     visible:
       eq:
-        create_compartment: false
+        create_compartment: "Use Existing"
  
-  # ============================
+  # ==================================================
   # NETWORK
-  # ============================
+  # ==================================================
   create_network:
-    type: boolean
-    title: "Create New Network (VCN)?"
-    default: true
+    type: enum
+    title: "Network Option"
+    enum:
+      - "Create"
+      - "Use Existing"
  
   vcn_name:
     type: string
     title: "VCN Name"
     visible:
       eq:
-        create_network: true
+        create_network: "Create"
  
   subnet_type:
     type: enum
@@ -97,36 +99,38 @@ variables:
       - "private"
     visible:
       eq:
-        create_network: true
+        create_network: "Create"
  
   existing_vcn_id:
     type: string
     title: "Existing VCN OCID"
     visible:
       eq:
-        create_network: false
+        create_network: "Use Existing"
  
   existing_subnet_id:
     type: string
     title: "Existing Subnet OCID"
     visible:
       eq:
-        create_network: false
+        create_network: "Use Existing"
  
-  # ============================
+  # ==================================================
   # INSTANCE
-  # ============================
+  # ==================================================
   create_instance:
-    type: boolean
-    title: "Create New Compute Instance?"
-    default: true
+    type: enum
+    title: "Instance Option"
+    enum:
+      - "Create"
+      - "Use Existing"
  
   instance_name:
     type: string
     title: "Instance Name"
     visible:
       eq:
-        create_instance: true
+        create_instance: "Create"
  
   instance_shape:
     type: enum
@@ -136,36 +140,38 @@ variables:
       - "VM.Standard.E3.Flex"
     visible:
       eq:
-        create_instance: true
+        create_instance: "Create"
  
   instance_private_ip:
     type: string
     title: "Private IP (Optional)"
     visible:
       eq:
-        create_instance: true
+        create_instance: "Create"
  
   existing_instance_id:
     type: string
     title: "Existing Instance OCID"
     visible:
       eq:
-        create_instance: false
+        create_instance: "Use Existing"
  
-  # ============================
+  # ==================================================
   # LOAD BALANCER
-  # ============================
+  # ==================================================
   create_lb:
-    type: boolean
-    title: "Create Load Balancer?"
-    default: true
+    type: enum
+    title: "Load Balancer Option"
+    enum:
+      - "Create"
+      - "Skip"
  
   lb_name:
     type: string
     title: "Load Balancer Name"
     visible:
       eq:
-        create_lb: true
+        create_lb: "Create"
  
   lb_shape:
     type: enum
@@ -175,36 +181,41 @@ variables:
       - "100Mbps"
     visible:
       eq:
-        create_lb: true
+        create_lb: "Create"
  
-  lb_subnet_id:
-    type: string
-    title: "LB Subnet OCID"
+  is_private_lb:
+    type: enum
+    title: "LB Type"
+    enum:
+      - "Public"
+      - "Private"
     visible:
       eq:
-        create_lb: true
+        create_lb: "Create"
  
-  # ============================
+  # ==================================================
   # WAF
-  # ============================
+  # ==================================================
   create_waf:
-    type: boolean
-    title: "Enable WAF?"
-    default: true
+    type: enum
+    title: "WAF Option"
+    enum:
+      - "Enable"
+      - "Disable"
  
   waf_name:
     type: string
     title: "WAF Name"
     visible:
       eq:
-        create_waf: true
+        create_waf: "Enable"
  
   waf_policy:
     type: enum
-    title: "WAF Policy Type"
+    title: "WAF Policy"
     enum:
       - "OCI_DEFAULT"
       - "CUSTOM"
     visible:
       eq:
-        create_waf: true
+        create_waf: "Enable"
