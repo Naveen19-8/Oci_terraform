@@ -1,31 +1,38 @@
 variable "create_lb" {
-  type    = bool
-  default = true
+  description = "Create new Load Balancer"
+  type        = bool
+  default     = true
 }
 
 variable "lb_name" {
-  type = string
+  description = "Load Balancer Name"
+  type        = string
 }
 
 variable "lb_shape" {
-  type    = string
-  default = "flexible"
+  description = "Load Balancer Shape"
+  type        = string
+  default     = "flexible"
 }
 
 variable "compartment_id" {
-  type = string
+  description = "Compartment OCID"
+  type        = string
 }
 
 variable "subnet_id" {
-  type = string
+  description = "Subnet OCID"
+  type        = string
 }
 
 variable "backend_ips" {
-  type    = list(string)
-  default = []
+  description = "Backend IP addresses"
+  type        = list(string)
+  default     = []
 }
 
 variable "existing_lb_id" {
-  type    = string
-  default = ""
+  description = "Existing Load Balancer OCID"
+  type        = string
+  default     = ""
 }
