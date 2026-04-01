@@ -1,0 +1,50 @@
+schemaVersion: 1.1.0
+version: "1.0"
+
+variables:
+
+  prefix:
+    type: string
+    title: "Deployment Name"
+
+  create_compartment:
+    type: boolean
+    title: "Create Compartment"
+
+  existing_compartment_id:
+    type: string
+
+  create_vcn:
+    type: boolean
+
+  separate_subnets:
+    type: boolean
+
+  deploy_app:
+    type: boolean
+    default: true
+
+  app_count:
+    type: integer
+    default: 2
+
+  deploy_db:
+    type: boolean
+    default: true
+
+  db_count:
+    type: integer
+    default: 1
+
+  deploy_lb:
+    type: boolean
+
+  lb_type:
+    type: enum
+    enum: [public, private]
+
+  auto_attach_lb:
+    type: boolean
+
+  ssh_public_key:
+    type: string
